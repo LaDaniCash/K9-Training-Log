@@ -74,7 +74,7 @@ document.getElementById('home').innerHTML=`<div class="hero"><h1>Ciao 👋</h1><
 <div class="grid3"><div class="stat"><b>${db.dogs.length}</b><span class="muted">Cani</span></div><div class="stat"><b>${total}</b><span class="muted">Sessioni</span></div><div class="stat"><b>${week}</b><span class="muted">7 giorni</span></div></div>
 <div class="card"><button class="btn primary wide" onclick="newTraining()">＋ REGISTRA ALLENAMENTO</button><div class="grid2" style="margin-top:10px"><button class="btn ghost" onclick="go('progress')">📊 Progressi</button><button class="btn ghost" onclick="go('problems')">⚠️ Problemi</button></div></div>
 <div class="sectiontitle"><h2>I miei cani</h2><button class="back pink" onclick="go('dogs')">Vedi tutti →</button></div>
-${db.dogs.length?db.dogs.map(d=>dogCard(d)).join(''):`<div class="card empty">🐾<br><br>Aggiungi il primo cane per iniziare.</div>`}
+${db.dogs.length?db.dogs.map(d=>dogCard(d)).join(''):`<div class="card empty">🐾breed:document.getElementById('db').value.trim()
 <div class="sectiontitle"><h2>Ultimi allenamenti</h2></div>
 <div class="card">${db.sessions.slice().sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5).map(sessionRow).join('')||'<div class="empty">Nessun allenamento ancora.</div>'}</div>`;
 }
