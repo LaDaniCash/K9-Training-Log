@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050505">
+<link rel="manifest" href="manifest.json">
+<title>K9 Training Log</title>
+<style>
+:root{--pink:#ff1493;--pink2:#ff4eae;--bg:#050505;--card:#121212;--card2:#191919;--text:#fff;--muted:#a7a7ad;--line:#292929;--green:#28d17c;--orange:#ffad33;--red:#ff4d5e}
+*{box-sizing:border-box}html,body{margin:0;background:#050505;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif}
+body{min-height:100vh;background:radial-gradient(circle at 50% -10%,#3b0730 0,#090609 32%,#050505 70%)}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+.app{max-width:760px;margin:auto;padding-bottom:92px}
+.top{padding:20px 17px 12px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:5;background:linear-gradient(#080608f2,#080608e8,transparent)}
+.brand{display:flex;align-items:center;gap:10px}.brand img{width:45px;height:45px;border-radius:12px;object-fit:cover}.brand b{font-size:17px;letter-spacing:.8px}.brand span{display:block;color:#aaa;font-size:10px;letter-spacing:2px}
+.iconbtn{width:42px;height:42px;border:1px solid #333;border-radius:13px;background:#121212;color:#fff;font-size:20px}
+main{padding:0 14px}.screen{display:none}.screen.active{display:block}
+.hero{padding:12px 4px 17px}.hero h1{font-size:29px;margin:0 0 4px}.hero p{margin:0;color:var(--muted)}
+.card{background:linear-gradient(145deg,#171717,#0f0f0f);border:1px solid #282828;border-radius:20px;padding:15px;margin:10px 0;box-shadow:0 8px 25px #0008}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{background:#151515;border:1px solid #272727;border-radius:15px;padding:13px;text-align:center}.stat b{display:block;font-size:22px}.muted{color:var(--muted);font-size:12px}
+.pink{color:var(--pink)}.btn{border:0;border-radius:14px;padding:13px 15px;font-weight:800}.primary{background:linear-gradient(135deg,var(--pink),#c40076);color:#fff;box-shadow:0 7px 20px #ff149344}.ghost{background:#1b1b1b;color:#fff;border:1px solid #333}
+.wide{width:100%}.sectiontitle{display:flex;justify-content:space-between;align-items:center;margin:18px 3px 8px}.sectiontitle h2{font-size:17px;margin:0}
+.dogrow{display:flex;gap:12px;align-items:center}.dogphoto{width:62px;height:62px;border-radius:16px;object-fit:cover;background:#242424}.dogname{font-weight:850;font-size:17px}.pill{display:inline-block;background:#281021;color:#ff70bc;border:1px solid #55213e;padding:5px 8px;border-radius:999px;font-size:10px;font-weight:800;margin-top:5px}
+.progress{height:8px;background:#292929;border-radius:99px;overflow:hidden}.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--pink),#ff77c5);border-radius:99px}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#0a0a0aeF;border-top:1px solid #292929;backdrop-filter:blur(18px);z-index:20;padding:8px max(10px,env(safe-area-inset-left)) calc(8px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(4,1fr);max-width:760px;margin:auto}.nav{background:none;border:0;color:#777;font-size:10px}.nav strong{display:block;font-size:20px;margin-bottom:2px}.nav.active{color:var(--pink)}
+label{font-size:11px;color:#bbb;font-weight:800;display:block;margin:10px 0 5px}input,select,textarea{width:100%;background:#0b0b0b;border:1px solid #303030;color:#fff;border-radius:12px;padding:12px;outline:none}textarea{min-height:82px;resize:vertical}.row{display:flex;gap:9px}.row>*{flex:1}
+.rating{display:flex;gap:7px}.rating button{flex:1;border:1px solid #333;background:#111;color:#777;border-radius:11px;padding:10px}.rating button.on{color:var(--pink);border-color:#7c1952;background:#24101d}
+.back{border:0;background:none;color:#bbb;padding:4px 0;font-weight:700}.empty{text-align:center;padding:30px 10px;color:#999}
+.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.day{min-height:58px;border:1px solid #292929;border-radius:10px;padding:7px;background:#101010}.day.today{border-color:var(--pink)}.dot{width:7px;height:7px;border-radius:50%;background:var(--pink);display:inline-block;margin-top:8px}
+.listitem{padding:12px 0;border-bottom:1px solid #282828}.listitem:last-child{border-bottom:0}.flex{display:flex;justify-content:space-between;gap:10px}.danger{color:#ff6976}.ok{color:var(--green)}.warn{color:var(--orange)}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%) translateY(20px);background:#fff;color:#111;padding:11px 15px;border-radius:12px;font-weight:800;opacity:0;pointer-events:none;transition:.25s;z-index:50}.toast.show{opacity:1;transform:translateX(-50%)}
+.modal{position:fixed;inset:0;background:#000b;display:none;align-items:flex-end;z-index:40}.modal.show{display:flex}.sheet{width:100%;max-width:760px;margin:auto;background:#111;border-radius:24px 24px 0 0;padding:18px;max-height:90vh;overflow:auto}
+img.preview{max-width:100%;border-radius:14px;margin-top:10px}
+@media(min-width:700px){.app{border-left:1px solid #191919;border-right:1px solid #191919;min-height:100vh}.bottom{border-left:1px solid #292929;border-right:1px solid #292929}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top"><div class="brand"><img src="logo.jpeg"><div><b>K9 TRAINING LOG</b><span>DISCIPLINA • PROGRESSO • RISULTATI</span></div></div><button class="iconbtn" onclick="openSettings()">⚙️</button></header>
+<main>
+<section id="home" class="screen active"></section>
+<section id="dogs" class="screen"></section>
+<section id="training" class="screen"></section>
+<section id="calendar" class="screen"></section>
+<section id="problems" class="screen"></section>
+<section id="progress" class="screen"></section>
+</main>
+<nav class="bottom">
+<button class="nav active" data-s="home" onclick="go('home')"><strong>⌂</strong>Home</button>
+<button class="nav" data-s="dogs" onclick="go('dogs')"><strong>🐾</strong>Cani</button>
+<button class="nav" data-s="training" onclick="newTraining()"><strong>＋</strong>Allenamento</button>
+<button class="nav" data-s="calendar" onclick="go('calendar')"><strong>▣</strong>Calendario</button>
+</nav>
+</div>
+<div id="modal" class="modal"><div id="sheet" class="sheet"></div></div><div id="toast" class="toast"></div>
+<script>
+const KEY='k9tl_pro_v1';
+let db=JSON.parse(localStorage.getItem(KEY)||'null')||{dogs:[],sessions:[]};
+const types=['Obbedienza','Condotta','Richiamo','Riporto','Ricerca olfattiva','Detection','IGP','Socializzazione','Preparazione gara','Altro'];
+const problems=['Distrazione','Partenza anticipata','Perde la posizione','Abbaio','Scarso focus','Richiamo debole','Morso da migliorare','Ritardo nella segnalazione','Altro'];
+const today=()=>new Date().toISOString().slice(0,10);
+const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+function save(){localStorage.setItem(KEY,JSON.stringify(db));}
+function toast(t){let x=document.getElementById('toast');x.textContent=t;x.classList.add('show');setTimeout(()=>x.classList.remove('show'),1800)}
+function go(id){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav').forEach(x=>x.classList.toggle('active',x.dataset.s===id));render(id)}
+function render(id='home'){if(id==='home')home();if(id==='dogs')dogs();if(id==='calendar')calendar();if(id==='problems')problemPage();if(id==='progress')progress()}
+function avg(arr){return arr.length?(arr.reduce((a,x)=>a+ +x.rating,0)/arr.length):0}
+function dog(id){return db.dogs.find(d=>d.id===id)}
+function home(){
+let total=db.sessions.length, mins=db.sessions.reduce((a,x)=>a+(+x.duration||0),0), week=db.sessions.filter(x=>(Date.now()-new Date(x.date+'T12:00'))<7*864e5).length;
+document.getElementById('home').innerHTML=`<div class="hero"><h1>Ciao 👋</h1><p>Pronto per il prossimo allenamento?</p></div>
+<div class="grid3"><div class="stat"><b>${db.dogs.length}</b><span class="muted">Cani</span></div><div class="stat"><b>${total}</b><span class="muted">Sessioni</span></div><div class="stat"><b>${week}</b><span class="muted">7 giorni</span></div></div>
+<div class="card"><button class="btn primary wide" onclick="newTraining()">＋ REGISTRA ALLENAMENTO</button><div class="grid2" style="margin-top:10px"><button class="btn ghost" onclick="go('progress')">📊 Progressi</button><button class="btn ghost" onclick="go('problems')">⚠️ Problemi</button></div></div>
+<div class="sectiontitle"><h2>I miei cani</h2><button class="back pink" onclick="go('dogs')">Vedi tutti →</button></div>
+${db.dogs.length?db.dogs.map(d=>dogCard(d)).join(''):`<div class="card empty">🐾<br><br>Aggiungi il primo cane per iniziare.</div>`}
+<div class="sectiontitle"><h2>Ultimi allenamenti</h2></div>
+<div class="card">${db.sessions.slice().sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5).map(sessionRow).join('')||'<div class="empty">Nessun allenamento ancora.</div>'}</div>`;
+}
+function dogCard(d){let s=db.sessions.filter(x=>x.dogId===d.id),a=avg(s),last=s.slice().sort((x,y)=>y.date.localeCompare(x.date))[0];return `<div class="card" onclick="dogDetail('${d.id}')"><div class="dogrow"><img class="dogphoto" src="${d.photo||'logo.jpeg'}"><div style="flex:1"><div class="dogname">${esc(d.name)}</div><div class="muted">${esc(d.breed||'Razza non indicata')}</div><span class="pill">${s.length} allenamenti</span></div><b class="pink">›</b></div><div style="margin-top:12px"><div class="flex"><span class="muted">Valutazione media</span><b>${a?a.toFixed(1):'—'}</b></div><div class="progress"><i style="width:${a*20}%"></i></div><div class="muted" style="margin-top:5px">${last?'Ultimo: '+last.date:'Nessun allenamento'}</div></div></div>`}
+function dogs(){document.getElementById('dogs').innerHTML=`<div class="hero"><h1>I miei cani</h1><p>Gestisci profili e storico individuale.</p></div><button class="btn primary wide" onclick="addDog()">＋ AGGIUNGI CANE</button>${db.dogs.map(d=>dogCard(d)).join('')||'<div class="card empty">Nessun cane.</div>'}`}
+function addDog(){modal(`<h2>Nuovo cane</h2><label>Nome</label><input id="dn" placeholder="es. Cougar"><label>Razza</label><input id="db" placeholder="es. Pastore Belga Malinois"><label>Discipline</label><input id="dd" placeholder="es. IGP, Detection"><label>Foto</label><input id="dp" type="file" accept="image/*"><button class="btn primary wide" style="margin-top:15px" onclick="saveDog()">Salva cane</button>`)}
+function saveDog(){let n=dn.value.trim();if(!n)return toast('Inserisci il nome');let file=dp.files[0];const done=photo=>{db.dogs.push({id:crypto.randomUUID(),name:n,breed:db.value.trim(),disc:dd.value.trim(),photo:photo||null});save();closeModal();toast('Cane aggiunto');go('dogs')};if(file){let r=new FileReader();r.onload=()=>done(r.result);r.readAsDataURL(file)}else done(null)}
+function dogDetail(id){let d=dog(id),s=db.sessions.filter(x=>x.dogId===id).sort((a,b)=>b.date.localeCompare(a.date));modal(`<button class="back" onclick="closeModal()">← Chiudi</button><div class="dogrow" style="margin-top:12px"><img class="dogphoto" src="${d.photo||'logo.jpeg'}"><div><h2 style="margin:0">${esc(d.name)}</h2><div class="muted">${esc(d.breed||'')}</div><span class="pill">${esc(d.disc||'')}</span></div></div><div class="grid3" style="margin-top:15px"><div class="stat"><b>${s.length}</b><span class="muted">Sessioni</span></div><div class="stat"><b>${s.reduce((a,x)=>a+(+x.duration||0),0)}</b><span class="muted">Minuti</span></div><div class="stat"><b>${avg(s)?avg(s).toFixed(1):'—'}</b><span class="muted">Media</span></div></div><button class="btn primary wide" style="margin-top:14px" onclick="closeModal();newTraining('${id}')">＋ Nuovo allenamento</button><div class="sectiontitle"><h2>Storico</h2></div>${s.map(sessionRow).join('')||'<div class="empty">Nessun allenamento.</div>'}`)}
+function sessionRow(x){let d=dog(x.dogId);return `<div class="listitem" onclick="sessionDetail('${x.id}')"><div class="flex"><div><b>${esc(d?.name||'Cane')}</b><div class="muted">${x.date} · ${esc(x.type)} · ${x.duration} min</div></div><span class="pink">${'★'.repeat(+x.rating)}${'☆'.repeat(5-+x.rating)}</span></div>${x.problems?`<div class="muted" style="margin-top:5px">⚠️ ${esc(x.problems)}</div>`:''}</div>`}
+function newTraining(pre=''){if(!db.dogs.length){go('dogs');return toast('Prima aggiungi un cane')}go('training');let el=document.getElementById('training');el.innerHTML=`<button class="back" onclick="go('home')">← Indietro</button><div class="hero"><h1>Nuovo allenamento</h1><p>Registra tutto in pochi secondi.</p></div><div class="card"><label>Cane</label><select id="tdog">${db.dogs.map(d=>`<option value="${d.id}" ${d.id===pre?'selected':''}>${esc(d.name)}</option>`).join('')}</select><div class="row"><div><label>Data</label><input id="tdate" type="date" value="${today()}"></div><div><label>Durata (min)</label><input id="tdur" type="number" min="1" value="30"></div></div><label>Disciplina</label><select id="ttype">${types.map(t=>`<option>${t}</option>`).join('')}</select><label>Esercizio</label><input id="tex" placeholder="es. ricerca, condotta, invio..."><label>Valutazione</label><div class="rating" id="rating">${[1,2,3,4,5].map(n=>`<button onclick="rate(${n})">${n}★</button>`).join('')}</div><input type="hidden" id="trating" value="3"><label>Difficoltà</label><select id="tdiff">${[1,2,3,4,5].map(n=>`<option>${n}</option>`).join('')}</select><label>Problemi riscontrati</label><select id="tproblem"><option value="">Nessuno</option>${problems.map(p=>`<option>${p}</option>`).join('')}</select><label>Cosa è andato bene?</label><textarea id="tgood"></textarea><label>Cosa migliorare?</label><textarea id="timprove"></textarea><label>Note</label><textarea id="tnote"></textarea><label>Foto</label><input id="tphoto" type="file" accept="image/*" capture="environment"><button class="btn primary wide" style="margin-top:14px" onclick="saveSession()">💾 SALVA ALLENAMENTO</button></div>`;rate(3)}
+function rate(n){trating.value=n;document.querySelectorAll('#rating button').forEach((b,i)=>b.classList.toggle('on',i<n))}
+function saveSession(){let f=tphoto.files[0],base=null;const done=()=>{db.sessions.push({id:crypto.randomUUID(),dogId:tdog.value,date:tdate.value,duration:tdur.value,type:ttype.value,exercise:tex.value,rating:trating.value,diff:tdiff.value,problem:tproblem.value,good:tgood.value,improve:timprove.value,note:tnote.value,photo:base});save();toast('Allenamento salvato ✓');go('home')};if(f){let r=new FileReader();r.onload=()=>{base=r.result;done()};r.readAsDataURL(f)}else done()}
+function sessionDetail(id){let x=db.sessions.find(s=>s.id===id),d=dog(x.dogId);modal(`<button class="back" onclick="closeModal()">← Chiudi</button><h2 style="margin-top:12px">${esc(d?.name||'Cane')}</h2><div class="muted">${x.date} · ${esc(x.type)} · ${x.duration} min</div>${x.photo?`<img class="preview" src="${x.photo}">`:''}<div class="card"><b>${esc(x.exercise||'Allenamento')}</b><div class="pink" style="margin-top:7px">${'★'.repeat(+x.rating)}${'☆'.repeat(5-+x.rating)}</div><p>⚠️ ${esc(x.problem||'Nessun problema')}</p><p>✅ ${esc(x.good||'—')}</p><p>🔧 ${esc(x.improve||'—')}</p><p class="muted">${esc(x.note||'')}</p></div><button class="btn ghost wide" onclick="deleteSession('${id}')">Elimina allenamento</button>`)}
+function deleteSession(id){if(confirm('Eliminare questo allenamento?')){db.sessions=db.sessions.filter(x=>x.id!==id);save();closeModal();toast('Eliminato');go('home')}}
+function calendar(){let d=new Date(),y=d.getFullYear(),m=d.getMonth(),name=d.toLocaleDateString('it-IT',{month:'long',year:'numeric'}),days=new Date(y,m+1,0).getDate(),first=(new Date(y,m,1).getDay()+6)%7,c='';for(let i=0;i<first;i++)c+='<div></div>';for(let n=1;n<=days;n++){let ds=`${y}-${String(m+1).padStart(2,'0')}-${String(n).padStart(2,'0')}`,s=db.sessions.filter(x=>x.date===ds);c+=`<div class="day ${ds===today()?'today':''}" onclick="dayDetail('${ds}')"><b>${n}</b>${s.length?'<br><span class="dot"></span>':''}</div>`}document.getElementById('calendar').innerHTML=`<div class="hero"><h1>Calendario</h1><p style="text-transform:capitalize">${name}</p></div><div class="card"><div class="calendar">${['L','M','M','G','V','S','D'].map(x=>`<div class="muted" style="text-align:center;font-weight:800">${x}</div>`).join('')}${c}</div></div>`}
+function dayDetail(ds){let s=db.sessions.filter(x=>x.date===ds);modal(`<button class="back" onclick="closeModal()">← Chiudi</button><h2 style="margin-top:12px">${ds}</h2>${s.map(sessionRow).join('')||'<div class="empty">Nessun allenamento.</div>'}`)}
+function problemPage(){let map={};db.sessions.forEach(s=>{if(s.problem)map[s.problem]=(map[s.problem]||0)+1});let arr=Object.entries(map).sort((a,b)=>b[1]-a[1]);document.getElementById('problems').innerHTML=`<div class="hero"><h1>Problemi</h1><p>Quelli registrati più spesso nei tuoi allenamenti.</p></div><div class="card">${arr.length?arr.map((x,i)=>`<div class="listitem"><div class="flex"><b>${i+1}. ${esc(x[0])}</b><span class="pill">${x[1]} volte</span></div></div>`).join(''):'<div class="empty">Nessun problema registrato 🎉</div>'}</div>`}
+function progress(){document.getElementById('progress').innerHTML=`<div class="hero"><h1>Progressi</h1><p>Panoramica dei risultati.</p></div>${db.dogs.map(d=>{let s=db.sessions.filter(x=>x.dogId===d.id),a=avg(s);let by={};s.forEach(x=>by[x.type]=(by[x.type]||[]).concat(+x.rating));return `<div class="card"><div class="dogrow"><img class="dogphoto" src="${d.photo||'logo.jpeg'}"><div><b>${esc(d.name)}</b><div class="muted">${s.length} sessioni</div></div></div><div style="margin-top:14px"><div class="flex"><span class="muted">Media generale</span><b>${a?a.toFixed(1):'—'}/5</b></div><div class="progress"><i style="width:${a*20}%"></i></div></div>${Object.entries(by).map(([k,v])=>{let q=v.reduce((a,n)=>a+n,0)/v.length;return `<div style="margin-top:11px"><div class="flex"><span class="muted">${esc(k)}</span><b>${q.toFixed(1)}</b></div><div class="progress"><i style="width:${q*20}%"></i></div></div>`}).join('')}</div>`}).join('')||'<div class="card empty">Aggiungi un cane per vedere i progressi.</div>'}`}
+function modal(html){document.getElementById('sheet').innerHTML=html;document.getElementById('modal').classList.add('show')}function closeModal(){document.getElementById('modal').classList.remove('show')}
+function openSettings(){modal(`<h2>⚙️ Impostazioni</h2><p class="muted">I dati vengono salvati sul dispositivo in questa versione. Puoi fare un backup completo.</p><button class="btn primary wide" onclick="exportData()">⬇️ Esporta backup</button><label style="margin-top:12px">Importa backup</label><input type="file" accept=".json" onchange="importData(this)"><button class="btn ghost wide" style="margin-top:12px" onclick="clearAll()">Cancella tutti i dati</button>`)}
+function exportData(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='k9-training-backup.json';a.click();toast('Backup esportato')}
+function importData(inp){let f=inp.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{db=JSON.parse(r.result);save();closeModal();toast('Backup importato ✓');go('home')}catch(e){toast('File non valido')}};r.readAsText(f)}
+function clearAll(){if(confirm('Cancella tutti i dati?')){db={dogs:[],sessions:[]};save();closeModal();go('home')}}
+if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
+home();
+</script>
+</body>
+</html>
